@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Peep</title>
+</head>
+<div id="c">
+	<h1>Peep!</h1>
+	<div id="cc">
+
+		<section id="halp">
+			<h2>Usage</h2>
+			Generate a Peep bookmarklet of your desired specifications below, then drag the <b>Peep!</b> link to your bookmarks bar.<br>
+			Navigate onto a target site and click the Peep bookmarklet button. Peep will load and hamper your visibility on the loaded page. You can hit the <b>P</b> key to toggle the overlay on and off.
+		</section>
+		<section id="req"><h2>Requirements</h2>
+				Tested in Chrome 15 and Firefox 8.
+		</section>
+		<section id="gen">
+			<h2>Awesome! Let's do this!</h2>
+			<h3>Set it up!</h3>
+			<table width="100%">
+				<tr>
+					<td width="30%">Desired visible space</td>
+					<td><input id="vis" type="range" min="0" max="100" value="3" /></td>
+					<td width="6%"> <span id="vis_text"></span> %</td>
+				</tr>
+			</table>
+			<h3>Bookmarklet (peepin' everywhere!)</h3>
+			Generated bookmarklet:
+			<a href="#" id="bmlink">
+				<img src="bm.png">
+				Peep!
+			</a>
+			<textarea id="bm" cols="30" rows="5"></textarea>
+			<h3>Embed!</h3>
+			Copy the below HTML onto a page,
+			<textarea id="em_embed" cols="30" rows="5" readonly>&lt;script&gt;var Peep=function(W){function Q(a,b,c,d,e,f,g,h){return X.globalCompositeOperation=a,X.fillStyle=b,X.setTransform(c,d,e,f,g,h),X}function I($){var D=W.document,b=D.body;b.appendChild(C=D.createElement("canvas")),S=$,Y=C.width=C.height=128,X=C.getContext("2d");with(C.style)left=top=0,width=height="100%",position="fixed",zIndex=900,pointerEvents="none";b.addEventListener("mousemove",function(a){V&&Math.abs((nx=a.clientX)-mx)+Math.abs((ny=a.clientY)-my)>3&&(mx=nx,my=ny,R(U))}),b.addEventListener("keyup",function(a){a.keyCode==80&&U(V=!V)})}function U(){C.width=Y;if(V){var w=innerWidth,h=innerHeight;Q("source-over","b",1,0,0,1,0,0).fillRect(0,0,Y,Y);with(Q("xor","w",h/w,0,0,1,mx/w*Y-H,my/h*Y-H))fill(arc(0,0,S*Y,0,360))}}var Z="equestAnimationFrame",R=W["r"+Z]||W["webkitR"+Z]||W["mozR"+Z],C,Y,X,S,mx,my,nx,ny,V=!(mx=my=nx=ny=0),H=.5;return I}(window);&lt;/script&gt;</textarea>
+			then use a link such as this to enable Peeping:
+			<textarea id="em_link" cols="30" rows="1"></textarea>
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+(function(){
+	var vis_text = document.getElementById("vis_text");
+	var vis = document.getElementById("vis");
+	var bm = document.getElementById("bm");
+	var bmLink = document.getElementById("bmlink");
+	var emLink = document.getElementById("em_link");
+	function update() {
+		var p = 0 | vis.value;
+		vis_text.innerHTML = p;
+		var src = location.href.replace(/\/[^\/]+$/, '').replace(/^http[s]?:/i, '') + '/peep.js';
+		var cmdlet = "(function(){var d=document,se=d.createElement('script');se.src='"+src+"';se.addEventListener('load',function(){window.Peep(" + (p / 100).toFixed(2) + ")});d.body.appendChild(se)}());";
+		bm.value = cmdlet;
+		bmLink.href = "javascript:" + cmdlet;
+		emLink.value = "<a href=\"javascript:return Peep(" + (p / 100).toFixed(2) + "),0\">Peep</a>"
+	}
+	vis.addEventListener("input", update);
+	update();
+}());
+</script>
+
+
+<style type="text/css">
+body {
+	background:url(bg.png);
+	font:14pt/18pt "Segoe UI", "Trebuchet MS", sans-serif;
+}
+#c {
+	background:#FFF;
+	background:rgba(255,255,255,0.9);
+	border:1em solid #1c2b39;
+	border-radius:20px;
+	box-sizing:border-box;
+	
+	box-shadow:0px 5px 10px 0px rgba(0,0,0,0.5);
+	width: 900px;
+	margin:auto;
+	text-align:center;
+}
+#cc {
+	padding:2em;
+}
+h1 {
+	font: 120px/120px "Carter One";
+	margin:0;
+	background: #606c88;
+	background: -moz-linear-gradient(top, #606c88 0%, #303c51 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(100%,#303c51));
+	background: -webkit-linear-gradient(top, #606c88 0%,#303c51 100%);
+	background: -o-linear-gradient(top, #606c88 0%,#303c51 100%);
+	background: -ms-linear-gradient(top, #606c88 0%,#303c51 100%);
+	background: linear-gradient(top, #606c88 0%,#303c51 100%);	
+	padding:40px 0;
+	text-shadow:#FFF 0px 0px 15px;
+	letter-spacing:0.3em
+}
+#c table {
+	margin:auto;
+}
+input {
+	width:100%
+}
+
+textarea {
+	display:block;
+	width: 100%;
+	font-size:8pt;
+}
+
+#bm {
+	display:none;
+}
+
+#bmlink {
+	display:block;
+	margin:1em auto;
+	text-decoration:none;
+	padding:10px;
+	width:200px;
+	border:3px solid #025;
+	border-radius:40px;
+	background:rgba(255,255,255,0.45);
+	box-shadow:0px 5px 10px 0px rgba(0,0,0,0.5);
+	-webkit-transition: background 0.5s, box-shadow 0.5s, border-color 0.5s;
+	font:24pt "Carter One";
+	color:#000
+}
+#bmlink img {
+	vertical-align: middle;
+	pointer-events: none
+}
+
+@-webkit-keyframes wiggle {
+	0% { -webkit-transform: rotate(-10deg) }
+	50% { -webkit-transform: rotate(10deg) }
+	100% { -webkit-transform: rotate(-10deg) }
+}
+
+#bmlink:active {
+	-webkit-animation: wiggle 0.6s infinite;
+}
+
+#bmlink:hover, #bmlink:active {
+	border-color:#069;
+	background:#FFF;
+	
+	box-shadow:0px 0px 40px 5px #24b8ff;
+}
+
+section {
+	margin-bottom: 2em;
+}
+
+h2 {
+	text-transform:lowercase;
+	letter-spacing:0.3em;
+	padding-bottom:3px;
+	border-bottom:2px solid rgba(0,0,0,0.4);
+}
+
+</style>
+<link href='http://fonts.googleapis.com/css?family=Carter+One' rel='stylesheet' type='text/css'>
+</body>
+</html>
